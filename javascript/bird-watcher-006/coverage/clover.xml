@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1688023696583" clover="3.2.0">
+  <project timestamp="1688023696584" name="All files">
+    <metrics statements="13" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1" elements="16" coveredelements="8" complexity="0" loc="13" ncloc="13" packages="1" files="1" classes="1"/>
+    <file name="bird-watcher.js" path="/Users/dream/Exercism/javascript/bird-watcher/bird-watcher.js">
+      <metrics statements="13" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+      <line num="14" count="0" type="stmt"/>
+      <line num="15" count="0" type="stmt"/>
+      <line num="16" count="0" type="stmt"/>
+      <line num="19" count="0" type="stmt"/>
+      <line num="30" count="4" type="stmt"/>
+      <line num="31" count="4" type="stmt"/>
+      <line num="32" count="4" type="stmt"/>
+      <line num="33" count="4" type="stmt"/>
+      <line num="35" count="4" type="stmt"/>
+      <line num="37" count="4" type="stmt"/>
+      <line num="38" count="0" type="stmt"/>
+      <line num="41" count="4" type="stmt"/>
+      <line num="52" count="0" type="stmt"/>
+    </file>
+  </project>
+</coverage>
