@@ -36,7 +36,11 @@ export function ticketStatus(tickets, ticketId) {
     return 'unknown ticket id';
   }
 
-  return tickets[ticketId] !== null ? `sold to ${tickets[ticketId]}` : 'not sold';
+  if (tickets[ticketId] !== null) {
+    return `sold to ${tickets[ticketId]}`;
+  }
+
+  return 'not sold';
 }
 
 /**

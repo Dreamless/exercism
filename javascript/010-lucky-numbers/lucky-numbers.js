@@ -35,5 +35,9 @@ export function errorMessage(input) {
     return 'Required field';
   }
 
-  return !isNaN(Number(input)) && Number(input) > 0 ? '' : 'Must be a number besides 0';
+  if (!isNaN(Number(input)) && Number(input) !== 0) {
+    return '';
+  } else {
+    return 'Must be a number besides 0';
+  }
 }

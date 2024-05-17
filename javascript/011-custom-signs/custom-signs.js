@@ -58,7 +58,7 @@ export function graduationFor(name, year) {
 export function costOf(sign, currency) {
   const baseSignCost = 20;
   const letterCost = 2;
-  const calculatedPrice = baseSignCost + (sign.trim().length * letterCost);
+  const calculatedPrice = baseSignCost + (sign.length * letterCost);
 
   return `Your sign costs ${calculatedPrice.toFixed(2)} ${currency}.`
 }

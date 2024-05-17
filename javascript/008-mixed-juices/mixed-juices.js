@@ -15,7 +15,6 @@ export function timeToMixJuice(name) {
     case 'Pure Strawberry Joy':
       return 0.5;
     case 'Energizer':
-      return 1.5;
     case 'Green Garden':
       return 1.5;
     case 'Tropical Island':
@@ -36,11 +35,11 @@ export function timeToMixJuice(name) {
  * @returns {number} number of limes cut
  */
 export function limesToCut(wedgesNeeded, limes) {
-  if (wedgesNeeded === 0 || limes.length < 1) {
+  if (wedgesNeeded === 0 || limes.length === 0) {
     return 0;
   }
 
-  let wadgesCount = 0;
+  let wedgesCount = 0;
   let limesCount = 0;
 
   const limeWedges = {
@@ -49,12 +48,8 @@ export function limesToCut(wedgesNeeded, limes) {
     large: 10
   };
 
-  while (wadgesCount <= wedgesNeeded) {
-    wadgesCount += limeWedges[limes[limesCount]];
-
-    if (limesCount === limes.length) {
-      break;
-    }
+  while (wedgesCount < wedgesNeeded && limesCount !== limes.length) {
+    wedgesCount += limeWedges[limes[limesCount]];
 
     limesCount++;
   }
@@ -70,19 +65,16 @@ export function limesToCut(wedgesNeeded, limes) {
  * @returns {string[]} remaining orders after the time is up
  */
 export function remainingOrders(timeLeft, orders) {
-  let i = 0;
-  let firstShiftTime = 0;
-  const remaningOrders = [];
-
-  while (i < orders.length) {
-    if (firstShiftTime < timeLeft) {
-      firstShiftTime += timeToMixJuice(orders[i]);
-    } else {
-      remaningOrders.push(orders[i]);
-    }
-
-    i++;
+  if (orders.length === 0) {
+    return [];
   }
 
-  return remaningOrders;
+  let firstShiftTime = 0;
+  let orderIndex = 0;
+  while (firstShiftTime < timeLeft) {
+    firstShiftTime += timeToMixJuice(orders[orderIndex]);
+    orderIndex++;
+  }
+
+  return orders.slice(orderIndex);
 }

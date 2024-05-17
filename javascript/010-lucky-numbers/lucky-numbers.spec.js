@@ -44,11 +44,14 @@ describe('errorMessage', () => {
     expect(errorMessage('86f1')).toBe('Must be a number besides 0');
     expect(errorMessage('4 2')).toBe('Must be a number besides 0');
     expect(errorMessage('0')).toBe('Must be a number besides 0');
+    expect(errorMessage('NaN')).toBe('Must be a number besides 0');
   });
 
   test('returns an empty string for valid inputs', () => {
     expect(errorMessage('1.234')).toBe('');
     expect(errorMessage('  784   ')).toBe('');
     expect(errorMessage('5e3')).toBe('');
+    expect(errorMessage('-77')).toBe('');
+    expect(errorMessage('Infinity')).toBe('');
   });
 });
