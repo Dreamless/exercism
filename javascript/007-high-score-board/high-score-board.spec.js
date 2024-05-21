@@ -27,7 +27,8 @@ describe('addPlayer', () => {
       'Jesse Johnson': 1337,
     };
 
-      const actual = addPlayer(scoreBoard, 'Jesse Johnson', 1337);
+    const actual = addPlayer(scoreBoard, 'Jesse Johnson', 1337);
+
     expect(actual).toEqual(expected);
   });
 

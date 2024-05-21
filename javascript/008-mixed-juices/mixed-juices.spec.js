@@ -58,6 +58,10 @@ describe('limesToCut', () => {
   test('works if no limes are available', () => {
     expect(limesToCut(10, [])).toBe(0);
   });
+
+  test('works when the number of lime wedges matches the number of limes', () => {
+    expect(limesToCut(12, ['small','small'])).toBe(2);
+  });
 });
 
 describe('remainingOrders', () => {
