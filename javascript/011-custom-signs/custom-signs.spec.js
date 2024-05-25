@@ -70,7 +70,7 @@ describe('costOf', () => {
 
   test('handles additional whitespaces', () => {
     const sign = 'Happy Mark, you\xa0 little bastard!';
-    const expected = 'Your sign costs 82.00 euros.';
+    const expected = 'Your sign costs 84.00 euros.';
     expect(costOf(sign, 'euros')).toBe(expected);
   });
 });

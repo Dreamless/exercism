@@ -114,4 +114,10 @@ describe('remainingOrders', () => {
 
     expect(remainingOrders(0.2, orders)).toEqual(expected);
   });
+
+  test('works if there is very large time left', () => {
+    const orders = ['Bananas Gone Wild', 'Pure Strawberry Joy'];
+
+    expect(remainingOrders(200, orders)).toEqual([]);
+  });
 });

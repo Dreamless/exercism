@@ -71,7 +71,8 @@ export function remainingOrders(timeLeft, orders) {
 
   let firstShiftTime = 0;
   let orderIndex = 0;
-  while (firstShiftTime < timeLeft) {
+
+  while (firstShiftTime < timeLeft && orderIndex < orders.length) {
     firstShiftTime += timeToMixJuice(orders[orderIndex]);
     orderIndex++;
   }
