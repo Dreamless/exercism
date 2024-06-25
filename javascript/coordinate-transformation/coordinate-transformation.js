@@ -43,7 +43,7 @@ export function scale2d(sx, sy) {
  *  transformed coordinate pair in the form [x, y]
  */
 export function composeTransform(f, g) {
-  return (x, y) => g(f(x, y)[0], f(x, y)[1])
+  return (...args) => g(...f(...args));
 }
 
 /**
@@ -56,5 +56,17 @@ export function composeTransform(f, g) {
  *  if the arguments are the same on subsequent calls, or compute a new result if they are different.
  */
 export function memoizeTransform(f) {
-  return (x, y) => f(x, y)
+  const cache = {};
+
+  return (...args) => {
+    const key = JSON.stringify(args);
+    const result = f(...args);
+
+    if (cache[key]) {
+      return cache[key];
+    }
+
+    cache[key] = result;
+    return result;
+  }
 }
