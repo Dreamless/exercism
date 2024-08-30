@@ -148,4 +148,17 @@ describe('memoizeTransform', () => {
     expect(memoizedSum(1, 2)).toEqual(3);
     expect(memoizedDifference(1, 2)).toEqual(-1);
   });
+
+  test('should work with non-default arguments', () => {
+    let callNum = 0;
+    const myFunction = (x, y) => ++callNum;
+    const memoized = memoizeTransform(myFunction);
+
+    expect(memoized(1, 2)).toEqual(1);
+    expect(memoized(1, 2)).toEqual(1);
+    expect(memoized(1, [2])).toEqual(2);
+    expect(memoized(1, [2])).toEqual(2);
+    expect(memoized([1], { x: [2] })).toEqual(3);
+    expect(memoized([1], { x: [2] })).toEqual(3);
+  });
 });
