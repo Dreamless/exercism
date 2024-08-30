@@ -46,6 +46,52 @@ export function composeTransform(f, g) {
   return (...args) => g(...f(...args));
 }
 
+const isArray = (val) => Array.isArray(val);
+const isObject = (val) => {
+  return typeof val === 'object'
+    && val !== null
+    && !Array.isArray(val)
+    && !(val instanceof RegExp)
+    && !(val instanceof Date)
+    && !(val instanceof Set)
+    && !(val instanceof Map)
+}
+
+function compareValues(valA, valB) {
+  if (isObject(valA) && isObject(valB)) {
+    return compareObject(valA, valB);
+  } else if (isArray(valA) && isArray(valB)) {
+    return compareArrays(valA, valB);
+  } else {
+    return valA === valB;
+  }
+}
+
+export const compareArrays = (a, b) => {
+  if (a.length !== b.length) {
+    return false;
+  }
+
+  return a.every((element, index) => {
+    let valA = element;
+    let valB = b[index];
+    return compareValues(valA, valB);
+  });
+}
+
+export const compareObject = (a, b) => {
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+  if (keysA.length !== keysB.length) return false;
+
+  return keysA.every((element) => {
+    let valA = a[element];
+    let valB = b[element];
+
+    return Object.hasOwn(b, element) && compareValues(valA, valB);
+  });
+}
+
 /**
  * Return a function that memoizes the last result.  If the arguments are the same as the last call,
  * then memoized result returned.
@@ -56,10 +102,11 @@ export function composeTransform(f, g) {
  *  if the arguments are the same on subsequent calls, or compute a new result if they are different.
  */
 export function memoizeTransform(f) {
-  let cache, key;
+  let cache = null;
+  let key = [];
 
   return (...args) => {
-    if (key?.toString() === args.toString()) {
+    if (compareArrays(key, args)) {
       return cache;
     }
 

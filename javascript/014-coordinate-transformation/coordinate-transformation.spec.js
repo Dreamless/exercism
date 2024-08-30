@@ -151,14 +151,44 @@ describe('memoizeTransform', () => {
 
   test('should work with non-default arguments', () => {
     let callNum = 0;
-    const myFunction = (x, y) => ++callNum;
+    const myFunction = () => ++callNum;
     const memoized = memoizeTransform(myFunction);
 
     expect(memoized(1, 2)).toEqual(1);
     expect(memoized(1, 2)).toEqual(1);
     expect(memoized(1, [2])).toEqual(2);
     expect(memoized(1, [2])).toEqual(2);
-    expect(memoized([1], { x: [2] })).toEqual(3);
-    expect(memoized([1], { x: [2] })).toEqual(3);
+    expect(memoized([1], {x: [2]})).toEqual(3);
+    expect(memoized([1], {x: [2]})).toEqual(3);
+    expect(memoized([1], {y: [2]})).toEqual(4);
+    expect(memoized([1], {y: [2]})).toEqual(4);
+    expect(memoized([1], {x: 1, y: 2})).toEqual(5);
+    expect(memoized([1], {y: 2, x: 1})).toEqual(5);
+    expect(memoized([1], {y: 2, z: undefined})).toEqual(6);
+    expect(memoized([1], {y: 2, x: 123})).toEqual(7);
+    expect(memoized([1], [[2]])).toEqual(8);
+    expect(memoized([1], [[2]])).toEqual(8);
+  });
+
+
+  test('should work with nested object', () => {
+    let callNum = 0;
+    const myFunction = () => ++callNum;
+    const memoized = memoizeTransform(myFunction);
+    const obj = {
+      x: [
+        {
+          y:
+            [{z: 2}, {z: 1}]
+        }, {
+          y:
+            [{z: 2}, {z: 1}]
+          }
+        ]
+    }
+
+    expect(memoized([1], obj)).toEqual(1);
+    expect(memoized([1], obj)).toEqual(1);
+    expect(memoized([1], {x: 1})).toEqual(2);
   });
 });
