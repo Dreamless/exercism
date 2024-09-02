@@ -47,7 +47,7 @@ export function composeTransform(f, g) {
 }
 
 const isArray = (val) => Array.isArray(val);
-const isObject = (val) => {
+export const isObject = (val) => {
   return typeof val === 'object'
     && val !== null
     && !Array.isArray(val)
@@ -67,10 +67,8 @@ function compareValues(valA, valB) {
   }
 }
 
-export const compareArrays = (a, b) => {
-  if (a.length !== b.length) {
-    return false;
-  }
+const compareArrays = (a, b) => {
+  if (a.length !== b.length) return false;
 
   return a.every((element, index) => {
     let valA = element;
@@ -79,7 +77,7 @@ export const compareArrays = (a, b) => {
   });
 }
 
-export const compareObject = (a, b) => {
+const compareObject = (a, b) => {
   const keysA = Object.keys(a);
   const keysB = Object.keys(b);
   if (keysA.length !== keysB.length) return false;

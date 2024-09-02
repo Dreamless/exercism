@@ -3,6 +3,7 @@ import {
   scale2d,
   composeTransform,
   memoizeTransform,
+  isObject,
 } from './coordinate-transformation';
 
 const fakeTransform = () => {
@@ -177,18 +178,30 @@ describe('memoizeTransform', () => {
     const memoized = memoizeTransform(myFunction);
     const obj = {
       x: [
-        {
-          y:
-            [{z: 2}, {z: 1}]
-        }, {
-          y:
-            [{z: 2}, {z: 1}]
-          }
-        ]
+        {y: [{z: 2}, {z: 1}]},
+        {y: [{z: 2}, {z: 1}]}
+      ]
     }
 
     expect(memoized([1], obj)).toEqual(1);
     expect(memoized([1], obj)).toEqual(1);
     expect(memoized([1], {x: 1})).toEqual(2);
+  });
+
+  test('Should work only with Object', () => {
+    const objFixture = {
+      x: 1,
+      y: 2,
+    }
+
+    const dateFixture = new Date('July 20, 69 00:20:18');
+
+    expect(isObject(objFixture)).toBeTruthy();
+    expect(isObject(dateFixture)).toBeFalsy();
+    expect(isObject(dateFixture)).toBeFalsy();
+    expect(isObject(new Map())).toBeFalsy();
+    expect(isObject(new Set())).toBeFalsy();
+    expect(isObject([])).toBeFalsy();
+    expect(isObject(new RegExp("ab+c", "i"))).toBeFalsy();
   });
 });
