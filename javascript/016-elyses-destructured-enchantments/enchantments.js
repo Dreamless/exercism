@@ -47,7 +47,7 @@ export function swapTopTwoCards(deck) {
  */
 export function discardTopCard(deck) {
   const [first, ...rest] = deck;
-  return [first, [...rest]];
+  return [first, rest];
 }
 
 /** @type {Card[]} **/
