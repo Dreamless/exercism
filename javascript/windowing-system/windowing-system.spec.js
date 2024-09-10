@@ -153,6 +153,18 @@ describe('changeWindow', () => {
     expect(updatedWindow.position.y).toBe(150);
   });
 
+  test('verify window size and position', () => {
+    const programWindow = new ProgramWindow();
+    const newSize = new Size(800, 600);
+    programWindow.resize(newSize);
+    const newPosition = new Position(0, 0);
+    programWindow.move(newPosition);
+    const updatedWindow = changeWindow(programWindow);
+
+    expect(updatedWindow.position.x).toBe(100);
+    expect(updatedWindow.position.y).toBe(150);
+  });
+
   test('returns the same instance that was passed in', () => {
     const programWindow = new ProgramWindow();
     const updatedWindow = changeWindow(programWindow);

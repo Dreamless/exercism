@@ -31,33 +31,33 @@ export class ProgramWindow {
   }
 
   resize(newSize) {
-    let sizeW = newSize.width > 1 ? newSize.width : 1;
-    let sizeH = newSize.height > 1 ? newSize.height : 1;
-    const shiftSizeW = newSize.width + sizeW;
-    const shiftSizeH = newSize.height + sizeH;
+    let newWidth = newSize.width > 1 ? newSize.width : 1;
+    let newHeight = newSize.height > 1 ? newSize.height : 1;
+    const maxWidth = newSize.width + newWidth;
+    const maxHeight = newSize.height + newHeight;
 
-    if (shiftSizeW > this.screenSize.width) {
-      sizeW = this.screenSize.width - this.position.x;
+    if (maxWidth > this.screenSize.width) {
+      newWidth = this.screenSize.width - this.position.x;
     }
 
-    if (shiftSizeH > this.screenSize.height) {
-      sizeH = this.screenSize.height - this.position.y;
+    if (maxHeight > this.screenSize.height) {
+      newHeight = this.screenSize.height - this.position.y;
     }
 
-    this.size.resize(sizeW, sizeH);
+    this.size.resize(newWidth, newHeight);
   }
 
   move(newPosition) {
     let posX = newPosition.x > 0 ? newPosition.x : 0;
     let posY = newPosition.y > 0 ? newPosition.y : 0;
-    const shiftWidth = this.size.width + posX;
-    const shiftHeight = this.size.height + posY;
+    const posBasedOnSizeX = this.size.width + posX;
+    const posBasedOnSizeY = this.size.height + posY;
 
-    if(shiftWidth > this.screenSize.width) {
+    if (posBasedOnSizeX > this.screenSize.width) {
       posX = this.screenSize.width - this.size.width;
     }
 
-    if(shiftHeight > this.screenSize.height) {
+    if (posBasedOnSizeY > this.screenSize.height) {
       posY = this.screenSize.height - this.size.height;
     }
 
