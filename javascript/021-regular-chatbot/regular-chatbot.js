@@ -8,9 +8,7 @@
  */
 
 export function isValidCommand(command) {
-  const re = /Chatbot/i;
-  const matchedArr = command.match(re);
-  return !matchedArr.index;
+  return /^chatbot/i.test(command);
 }
 
 /**
@@ -20,8 +18,7 @@ export function isValidCommand(command) {
  * @returns {string} The message without the emojis encryption
  */
 export function removeEmoji(message) {
-  const re = /emoji[0-9]+/g;
-  return message.replace(re, '');
+  return message.replace(new RegExp('emoji[0-9]+', 'g'), '');
 }
 
 /**
@@ -53,6 +50,6 @@ export function getURL(userInput) {
  * @returns {string} Greeting from the chatbot
  */
 export function niceToMeetYou(fullName) {
-  const [name, surname] = fullName.split(",");
-  return `Nice to meet you,${surname} ${name}`
+  const newName = fullName.replace(/([a-z]+), ([a-z]+)/i, '$2 $1')
+  return `Nice to meet you, ${newName}`
 }
