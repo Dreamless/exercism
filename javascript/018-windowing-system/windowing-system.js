@@ -33,14 +33,14 @@ export class ProgramWindow {
   resize(newSize) {
     let newWidth = newSize.width > 1 ? newSize.width : 1;
     let newHeight = newSize.height > 1 ? newSize.height : 1;
-    const newWindowWidth = this.position.x + newWidth;
-    const newWindowHeight = this.position.y + newHeight;
+    const leftBound = this.position.x + newWidth;
+    const bottomBound = this.position.y + newHeight;
 
-    if (newWindowWidth > this.screenSize.width) {
+    if (leftBound > this.screenSize.width) {
       newWidth = this.screenSize.width - this.position.x;
     }
 
-    if (newWindowHeight > this.screenSize.height) {
+    if (bottomBound > this.screenSize.height) {
       newHeight = this.screenSize.height - this.position.y;
     }
 
@@ -50,14 +50,14 @@ export class ProgramWindow {
   move(newPosition) {
     let posX = newPosition.x > 0 ? newPosition.x : 0;
     let posY = newPosition.y > 0 ? newPosition.y : 0;
-    const newWindowPosX = this.size.width + posX;
-    const newWindowPosY = this.size.height + posY;
+    const leftBound = this.size.width + posX;
+    const bottomBound = this.size.height + posY;
 
-    if (newWindowPosX > this.screenSize.width) {
+    if (leftBound > this.screenSize.width) {
       posX = this.screenSize.width - this.size.width;
     }
 
-    if (newWindowPosY > this.screenSize.height) {
+    if (bottomBound > this.screenSize.height) {
       posY = this.screenSize.height - this.size.height;
     }
 
