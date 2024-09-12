@@ -23,8 +23,8 @@ export function removeDuplicates(playlist) {
  * @returns {boolean} whether the track is in the playlist
  */
 export function hasTrack(playlist, track) {
-  const trackStore = new Set(playlist);
-  return trackStore.has(track);
+  const playlistStore = new Set(playlist);
+  return playlistStore.has(track);
 }
 
 /**
@@ -35,9 +35,9 @@ export function hasTrack(playlist, track) {
  * @returns {string[]} new playlist
  */
 export function addTrack(playlist, track) {
-  const trackStore = new Set(playlist);
-  trackStore.add(track);
-  return Array.from(trackStore);
+  const playlistStore = new Set(playlist);
+  playlistStore.add(track);
+  return Array.from(playlistStore);
 }
 
 /**
@@ -48,9 +48,9 @@ export function addTrack(playlist, track) {
  * @returns {string[]} new playlist
  */
 export function deleteTrack(playlist, track) {
-  const trackStore = new Set(playlist);
-  trackStore.delete(track);
-  return Array.from(trackStore);
+  const playlistStore = new Set(playlist);
+  playlistStore.delete(track);
+  return Array.from(playlistStore);
 }
 
 /**
@@ -60,8 +60,6 @@ export function deleteTrack(playlist, track) {
  * @returns {string[]} list of artists
  */
 export function listArtists(playlist) {
-  const re = /(\w+ )+(- )/gi;
-  const artists = playlist.map((track) => track.replace(re, ""))
-  const trackStore = new Set(artists);
-  return Array.from(trackStore);
+  const artists = playlist.map((track) => track.split(' - ').pop())
+  return Array.from(new Set(artists));
 }
