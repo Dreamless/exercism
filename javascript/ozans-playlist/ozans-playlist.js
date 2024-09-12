@@ -35,7 +35,9 @@ export function hasTrack(playlist, track) {
  * @returns {string[]} new playlist
  */
 export function addTrack(playlist, track) {
-  throw new Error('Please implement the addTrack function');
+  const trackStore = new Set(playlist);
+  trackStore.add(track);
+  return Array.from(trackStore);
 }
 
 /**
@@ -46,7 +48,9 @@ export function addTrack(playlist, track) {
  * @returns {string[]} new playlist
  */
 export function deleteTrack(playlist, track) {
-  throw new Error('Please implement the deleteTrack function');
+  const trackStore = new Set(playlist);
+  trackStore.delete(track);
+  return Array.from(trackStore);
 }
 
 /**
