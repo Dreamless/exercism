@@ -60,5 +60,8 @@ export function deleteTrack(playlist, track) {
  * @returns {string[]} list of artists
  */
 export function listArtists(playlist) {
-  throw new Error('Please implement the listArtists function');
+  const re = /(\w+ )+(- )/gi;
+  const artists = playlist.map((track) => track.replace(re, ""))
+  const trackStore = new Set(artists);
+  return Array.from(trackStore);
 }
