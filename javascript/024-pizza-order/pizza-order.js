@@ -17,16 +17,20 @@ const EXTRA_PRICES = {
  * Determine the price of the pizza given the pizza and optional extras
  *
  * @param {Pizza} pizza name of the pizza to be made
- * @param {Extra[]} extras list of extras
+ * @param {Extra} extras list of extras
  *
  * @returns {number} the price of the pizza
  */
 export function pizzaPrice(pizza, ...extras) {
-  const [extra, ...otherExtras] = extras;
-  if (extras.length) {
-    return EXTRA_PRICES[extra] + pizzaPrice(pizza, ...otherExtras);
+  return pizzaPriceInner(pizza, extras);
+}
+
+function pizzaPriceInner(pizza, extras) { // O(n)
+  if (!extras.length) { // O(1)
+    return PIZZA_PRICES[pizza]; // O(1)
   } else {
-    return PIZZA_PRICES[pizza];
+    const extra = extras.pop(); // O(1)
+    return EXTRA_PRICES[extra] + pizzaPriceInner(pizza, extras); // O(1)
   }
 }
 
@@ -41,7 +45,9 @@ export function pizzaPrice(pizza, ...extras) {
  */
 export function orderPrice(pizzaOrders) {
   return pizzaOrders.reduce(
-    (result, order) => result + pizzaPrice(order.pizza, ...order.extras),
+    (result, order) => {
+      return result + pizzaPrice(order.pizza, ...order.extras);
+    },
     0
   );
 }
