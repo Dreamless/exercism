@@ -8,9 +8,6 @@
 //
 // In your own projects, files, and code, you can play with @ts-check as well.
 
-import {rejects, throws} from "assert";
-import {ConnectionError, NotAvailable, Untranslatable} from "./errors";
-
 export class TranslationService {
   /**
    * Creates a new service
@@ -30,13 +27,7 @@ export class TranslationService {
    * @returns {Promise<string>}
    */
   free(text) {
-    let freePromise = new Promise((resolve) => {
-      resolve(this.api.fetch(text));
-    });
-
-    return freePromise.then(v => v.translation).catch((e) => {
-      throw e;
-    });
+    return this.api.fetch(text).then(v => v.translation);
   }
 
   /**
@@ -53,9 +44,7 @@ export class TranslationService {
 
     return prom.then(v =>
       v
-    ).catch(e => {
-      throw e
-    });
+    );
   }
 
   tryPromiseReject2() {
@@ -65,9 +54,7 @@ export class TranslationService {
 
     return prom.then(v =>
       v
-    ).catch(e => {
-      throw e
-    });
+    );
   }
 
   /**
@@ -86,8 +73,6 @@ export class TranslationService {
         throw new BatchIsEmpty();
       }
       return v;
-    }).catch(e => {
-      throw e;
     });
   }
 
@@ -98,34 +83,26 @@ export class TranslationService {
    *       it to accept the request.
    *
    * @param {string} text
+   * @param {number} retries
    * @returns {Promise<void>}
    */
-  request(text) {
-    const fetchWithAutoRetry = (fetcher, maximumRetryCount) => {
-      return this.api.fetch(text).catch((e) => {
-        if (maximumRetryCount === 0) {
-          throw e;
-        } else if(e instanceof NotAvailable) {
-          return Promise.resolve().then(() => fetchWithAutoRetry(fetcher, maximumRetryCount - 1))
-        }
-      });
-    }
-
-    return fetchWithAutoRetry(this.free(text), 3);
-  }
-
-  retryRequest(text, maximumRetryCount) {
+  request(text, retries = 2) {
     return new Promise((resolve, reject) => {
-      resolve(this.api.fetch(text));
-      reject(Promise.resolve(undefined));
-    }).catch(e => {
-      if (maximumRetryCount === 0) {
-        throw e;
+      const attemptRequest = (remainingRetries) => {
+        this.api.request(text, (err) => {
+          if (err) {
+            if (remainingRetries === 0) {
+              reject(err);
+            } else {
+              attemptRequest(remainingRetries - 1);
+            }
+          } else {
+            resolve();
+          }
+        });
       }
 
-      console.log(maximumRetryCount);
-
-      return this.retryRequest(text, maximumRetryCount - 1);
+      attemptRequest(retries);
     });
   }
 
@@ -140,7 +117,16 @@ export class TranslationService {
    * @returns {Promise<string>}
    */
   premium(text, minimumQuality) {
-    throw new Error('Implement the premium function');
+    return this.api.fetch(text)
+      .catch(() => {
+        return this.request(text).then(() => this.api.fetch(text));
+      })
+      .then((v) => {
+        if (v.quality < minimumQuality) {
+          throw new QualityThresholdNotMet(text);
+        }
+        return v.translation;
+      });
   }
 }
 
