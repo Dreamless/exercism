@@ -31,33 +31,6 @@ export class TranslationService {
   }
 
   /**
-   * Checking behaviour difference between handle error inside promise with/without reject
-   * - Returns error msg
-   *
-   * @returns {Promise<error>}
-   */
-
-  tryPromiseReject() {
-    let prom = new Promise(() => {
-      throw new Error('error handler without reject');
-    });
-
-    return prom.then(v =>
-      v
-    );
-  }
-
-  tryPromiseReject2() {
-    let prom = new Promise((resolve, reject) => {
-      reject(new Error('error handler with reject'));
-    });
-
-    return prom.then(v =>
-      v
-    );
-  }
-
-  /**
    * Batch translates the given texts using the free service.
    *
    * - Resolves all the translations (in the same order), if they all succeed
