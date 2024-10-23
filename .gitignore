@@ -2,4 +2,3 @@
 node_modules
 babel.config.cjs
 eslint.config.mjs
-HELP.md
