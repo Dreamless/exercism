@@ -14,5 +14,5 @@ export enum RESISTOR_VALUES {
 type Colors = keyof typeof RESISTOR_VALUES;
 
 export function decodedValue([color1, color2]: Colors[]): number {
-  return Number(`${RESISTOR_VALUES[color1]}${RESISTOR_VALUES[color2]}`);
+  return RESISTOR_VALUES[color1] * 10 + RESISTOR_VALUES[color2];
 }
