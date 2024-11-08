@@ -1,20 +1,6 @@
 import { describe, it, expect, xit } from '@jest/globals'
 import { decodedResistorValue } from './resistor-color-trio.ts'
 
-// export enum RESISTOR_VALUES {
-//   black = 0,
-//   brown = 1,
-//   red = 2,
-//   orange = 3,
-//   yellow = 4,
-//   green = 5,
-//   blue = 6,
-//   violet = 7,
-//   grey = 8,
-//   white = 9,
-// }
-
-
 describe('Resistor Colors', () => {
   it('Orange and orange and black', () => {
     expect(decodedResistorValue(['orange', 'orange', 'black'])).toEqual(

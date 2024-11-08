@@ -11,52 +11,29 @@ export enum RESISTOR_VALUES {
 	white = 9,
 }
 
-export enum SI_PREFIXES {
-	ohms = 10 ** 1,
-	kilo = 10 ** 3,
-	mega = 10 ** 6,
-	giga = 10 ** 9,
-}
-
 type Colors = keyof typeof RESISTOR_VALUES;
-type SI = keyof typeof SI_PREFIXES;
 
-export function decodedValue([color1, color2]: Colors[]): number {
+export const SI_PREFIXES: string[] = ["ohms", "kiloohms", "megaohms", "gigaohms"]
+
+export function decodedValue(color1: Colors, color2: Colors): number {
 	return RESISTOR_VALUES[color1] * 10 + RESISTOR_VALUES[color2];
 }
 
-// function decodeOhms(value: number): SI {
-// 	switch (value) {
-// 		case 2:
-// 		case 3:
-// 		case 4:
-// 		case 5:
-// 			return "kilo";
-// 		case 6:
-// 		case 7:
-// 		case 8:
-// 			return "mega";
-// 		case 9:
-// 			return "giga";
-// 		default:
-// 			return "ohms";
-// 	}
-// }
-
 export function decodedResistorValue([color1, color2, color3]: Colors[]): string {
-	const exponent = 10 ** RESISTOR_VALUES[color3];
-	if (RESISTOR_VALUES[color3] <= RESISTOR_VALUES["brown"]) {
-		return `${decodedValue([color1, color2]) * exponent} ohms`;
+	let rawVal: number = decodedValue(color1, color2);
+	let exp: number = RESISTOR_VALUES[color3];
+
+	if (rawVal % 10 === 0) {
+		rawVal /= 10;
+		exp += 1;
 	}
 
-	let measurement: keyof typeof SI_PREFIXES = "kilo";
-	if (RESISTOR_VALUES[color3] < RESISTOR_VALUES["blue"]) {
-		measurement = "kilo";
-	} else if (RESISTOR_VALUES[color3] < RESISTOR_VALUES["violet"]) {
-		measurement = "mega";
-	} else {
-		measurement = "giga";
-	}
+	const expOffset = Math.floor(exp / 3);
+	const finalExp = exp - expOffset * 3;
+	const finalSuffix = SI_PREFIXES[expOffset];
 
-  return `${decodedValue([color1, color2]) * exponent / SI_PREFIXES[measurement]} ${measurement}ohms`;
+	const multiplier: number = 10 ** finalExp;
+	const result = rawVal * multiplier;
+
+	return `${result} ${finalSuffix}`;
 }
