@@ -13,7 +13,11 @@ export enum RESISTOR_VALUES {
 
 type Colors = keyof typeof RESISTOR_VALUES;
 
-export const SI_PREFIXES: string[] = ["ohms", "kiloohms", "megaohms", "gigaohms"]
+export const SI_PREFIXES = {
+	9: "giga",
+	6: "mega",
+	3: "kilo",
+}
 
 export function decodedValue(color1: Colors, color2: Colors): number {
 	return RESISTOR_VALUES[color1] * 10 + RESISTOR_VALUES[color2];
@@ -28,9 +32,15 @@ export function decodedResistorValue([color1, color2, color3]: Colors[]): string
 		exp += 1;
 	}
 
-	const expOffset = Math.floor(exp / 3);
-	const finalExp = exp - expOffset * 3;
-	const finalSuffix = SI_PREFIXES[expOffset];
+	let finalExp = exp;
+	let finalSuffix = "ohms";
+
+	for (const [key, value] of Object.entries(SI_PREFIXES)) {
+		if (exp >= Number(key)) {
+			finalExp = exp - Number(key);
+			finalSuffix = `${value}ohms`;
+		}
+	}
 
 	const multiplier: number = 10 ** finalExp;
 	const result = rawVal * multiplier;
