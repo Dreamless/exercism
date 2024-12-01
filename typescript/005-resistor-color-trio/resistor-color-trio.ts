@@ -13,11 +13,11 @@ export enum RESISTOR_VALUES {
 
 type Colors = keyof typeof RESISTOR_VALUES;
 
-export const SI_PREFIXES = {
-	9: "giga",
-	6: "mega",
-	3: "kilo",
-}
+const SI_PREFIXES = new Map<number, string>([
+	[9, "gigaohms"],
+	[6, "megaohms"],
+	[3, "kiloohms"],
+]);
 
 export function decodedValue(color1: Colors, color2: Colors): number {
 	return RESISTOR_VALUES[color1] * 10 + RESISTOR_VALUES[color2];
@@ -32,18 +32,14 @@ export function decodedResistorValue([color1, color2, color3]: Colors[]): string
 		exp += 1;
 	}
 
-	let finalExp = exp;
-	let finalSuffix = "ohms";
-
-	for (const [key, value] of Object.entries(SI_PREFIXES)) {
-		if (exp >= Number(key)) {
-			finalExp = exp - Number(key);
-			finalSuffix = `${value}ohms`;
+	for (const [key, value] of SI_PREFIXES) {
+		if (exp >= key) {
+			const finalExp: number = exp - key;
+			const multiplier: number = 10 ** finalExp;
+			const result = rawVal * multiplier;
+			return `${result} ${value}`;
 		}
 	}
 
-	const multiplier: number = 10 ** finalExp;
-	const result = rawVal * multiplier;
-
-	return `${result} ${finalSuffix}`;
+	return `${rawVal * 10 ** exp} ohms`;
 }
