@@ -20,7 +20,8 @@ export class DnDCharacter {
   public static generateAbilityScore(): number {
     const rolls = Array.from({ length: 4 }, () => Math.floor(Math.random() * 6) + 1);
     rolls.sort((a, b) => a - b);
-    return rolls[1] + rolls[2] + rolls[3];
+    rolls.pop();
+    return rolls.reduce((acc, cur) => acc + cur, 0);
   }
 
   public static getModifierFor(abilityValue: number): number {
