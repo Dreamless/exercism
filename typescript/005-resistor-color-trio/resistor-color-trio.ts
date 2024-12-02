@@ -32,14 +32,17 @@ export function decodedResistorValue([color1, color2, color3]: Colors[]): string
 		exp += 1;
 	}
 
-	for (const [key, value] of SI_PREFIXES) {
+	const result = (expo: number): number => {
+		const multiplier: number = 10 ** expo;
+		return rawVal * multiplier;
+	}
+
+	for (const [key, prefix] of SI_PREFIXES) {
 		if (exp >= key) {
 			const finalExp: number = exp - key;
-			const multiplier: number = 10 ** finalExp;
-			const result = rawVal * multiplier;
-			return `${result} ${value}`;
+			return `${result(finalExp)} ${prefix}`
 		}
 	}
 
-	return `${rawVal * 10 ** exp} ohms`;
+	return `${result(exp)} ohms`;
 }
