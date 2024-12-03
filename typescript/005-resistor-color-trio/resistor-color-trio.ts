@@ -17,13 +17,14 @@ const SI_PREFIXES = new Map<number, string>([
 	[9, "gigaohms"],
 	[6, "megaohms"],
 	[3, "kiloohms"],
+	[0, "ohms"],
 ]);
 
 export function decodedValue(color1: Colors, color2: Colors): number {
 	return RESISTOR_VALUES[color1] * 10 + RESISTOR_VALUES[color2];
 }
 
-export function decodedResistorValue([color1, color2, color3]: Colors[]): string {
+export function decodedResistorValue([color1, color2, color3]: Colors[]): string | void {
 	let rawVal: number = decodedValue(color1, color2);
 	let exp: number = RESISTOR_VALUES[color3];
 
@@ -32,17 +33,11 @@ export function decodedResistorValue([color1, color2, color3]: Colors[]): string
 		exp += 1;
 	}
 
-	const result = (expo: number): number => {
-		const multiplier: number = 10 ** expo;
-		return rawVal * multiplier;
-	}
-
 	for (const [key, prefix] of SI_PREFIXES) {
 		if (exp >= key) {
 			const finalExp: number = exp - key;
-			return `${result(finalExp)} ${prefix}`
+			const multiplier: number = 10 ** finalExp;
+			return `${rawVal * multiplier} ${prefix}`;
 		}
 	}
-
-	return `${result(exp)} ohms`;
 }
