@@ -1,12 +1,14 @@
 export class Robot {
   private static usedNames: Set<string> = new Set();
   private _name: string | null = null;
+  private static serialNumber = 0;
 
   constructor() {}
 
-  private static generateRandomName(): string {
-    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const randomLetters = (qty: number): string => {
+  private static generateUniqueName(): string {
+    let name: string;
+    const generateRandomName = (qty: number): string => {
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       let str = "";
       while (str.length < qty) {
         str += letters[Math.floor(Math.random() * letters.length)];
@@ -14,24 +16,16 @@ export class Robot {
       return str;
     }
 
-    const randomDigits = (qty: number): string => {
-      let num = "";
-      while (num.length < qty) {
-        num +=  Math.floor(Math.random() * 10).toString();
-      }
-      return num;
-    }
+    const generateSerialNumber = this.serialNumber < 99 ?
+      `00${this.serialNumber}` :
+      this.serialNumber.toString();
 
-    return `${randomLetters(2)}${randomDigits(3)}`;
-  }
-
-  private static generateUniqueName(): string {
-    let name: string;
     do {
-      name = this.generateRandomName();
+      name = generateRandomName(2) + generateSerialNumber;
     } while (this.usedNames.has(name));
 
     this.usedNames.add(name);
+    this.serialNumber++;
     return name;
   }
 
