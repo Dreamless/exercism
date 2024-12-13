@@ -39,6 +39,13 @@ describe('Matrix', () => {
     )
   })
 
+  it('can extract column from non-square matrix 2', () => {
+    const expected = [4, 8, 12, 16]
+    expect(new Matrix('1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16').columns[3]).toEqual(
+      expected
+    )
+  })
+
   it('extract column where numbers have different widths', () => {
     const expected = [1903, 3, 4]
     expect(new Matrix('89 1903 3\n18 3 1\n9 4 800').columns[1]).toEqual(
