@@ -6,23 +6,24 @@ export class Robot {
   constructor() {}
 
   private static generateUniqueName(): string {
-    let name: string;
-    const generateRandomName = (qty: number): string => {
-      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      let str = "";
-      while (str.length < qty) {
-        str += letters[Math.floor(Math.random() * letters.length)];
-      }
-      return str;
-    }
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const firstLetter = letters[Math.floor(this.serialNumber / letters.length)];
+    const secondLetter = letters[this.serialNumber % letters.length];
+    const generateSerialNumber = this.serialNumber.toString().padStart(3, '0');
 
-    const generateSerialNumber = this.serialNumber < 99 ?
-      `00${this.serialNumber}` :
-      this.serialNumber.toString();
-
-    do {
-      name = generateRandomName(2) + generateSerialNumber;
-    } while (this.usedNames.has(name));
+    let name = firstLetter + secondLetter + generateSerialNumber;
+    // const generateRandomName = (qty: number): string => {
+    //   //const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    //   let str = "";
+    //   while (str.length < qty) {
+    //     str += letters[Math.floor(Math.random() * letters.length)];
+    //   }
+    //   return str;
+    // }
+    //
+    // do {
+    //   name = firstLetter + secondLetter + generateSerialNumber;
+    // } while (this.usedNames.has(name));
 
     this.usedNames.add(name);
     this.serialNumber++;
