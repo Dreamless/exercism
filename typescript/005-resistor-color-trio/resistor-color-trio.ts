@@ -24,7 +24,7 @@ export function decodedValue(color1: Colors, color2: Colors): number {
 	return RESISTOR_VALUES[color1] * 10 + RESISTOR_VALUES[color2];
 }
 
-export function decodedResistorValue([color1, color2, color3]: Colors[]): string | void {
+export function decodedResistorValue([color1, color2, color3]: Colors[]): string {
 	let rawVal: number = decodedValue(color1, color2);
 	let exp: number = RESISTOR_VALUES[color3];
 
@@ -40,4 +40,6 @@ export function decodedResistorValue([color1, color2, color3]: Colors[]): string
 			return `${rawVal * multiplier} ${prefix}`;
 		}
 	}
+
+	throw new Error("Invalid resistor value");
 }
