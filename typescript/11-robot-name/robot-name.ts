@@ -5,11 +5,27 @@ export class Robot {
 
   constructor() {}
 
+  private static generateAllNames(): string[] {
+    let allNames: string[] = [];
+    for (let i = 0; i < 677; i++) {
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const firstLetter = letters[Math.floor(i / letters.length)];
+      const secondLetter = letters[i % letters.length];
+      const names: string[]  = Array.from({ length: 1000 }, (_, index) => {
+        return firstLetter + secondLetter + index;
+      });
+      allNames = allNames.concat(names);
+    }
+    return allNames;
+  }
+
   private static generateUniqueName(): string {
+    this.generateAllNames();
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const firstLetter = letters[Math.floor(this.serialNumber / letters.length)];
     const secondLetter = letters[this.serialNumber % letters.length];
     const generateSerialNumber = this.serialNumber.toString().padStart(3, '0');
+
 
     let name = firstLetter + secondLetter + generateSerialNumber;
     // const generateRandomName = (qty: number): string => {
