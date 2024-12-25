@@ -1,6 +1,6 @@
 export class Robot {
   private _name: string | null = null;
-  private static allNames: string[] = [];
+  private static allNames: string[];
 
   constructor() {
     Robot.allNames = Robot.generateAllNames();
@@ -10,12 +10,11 @@ export class Robot {
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const allNames: string[] = [];
 
-    for (let i = 0; i < 676; i++) {
-      const firstLetter = letters[Math.floor(i / letters.length)];
-      const secondLetter = letters[i % letters.length];
-
-      for (let numIndex = 0; numIndex < 1000; numIndex++) {
-        allNames.push(`${firstLetter}${secondLetter}${numIndex.toString().padStart(3, '0')}`);
+    for (const firstLetter of letters) {
+      for (const secondLetter of letters) {
+        for (let numIndex = 0; numIndex < 1000; numIndex++) {
+          allNames.push(`${firstLetter}${secondLetter}${numIndex.toString().padStart(3, '0')}`);
+        }
       }
     }
 
@@ -49,9 +48,9 @@ export class Robot {
   // }
 
   public get name(): string {
+    //const randomNameIndex = Math.floor(Math.random() * Robot.allNames.length);
     if (!this._name) {
-      const randomNameIndex = Math.floor(Math.random() * Robot.allNames.length);
-      this._name = Robot.allNames[randomNameIndex];
+      this._name = Robot.allNames;
     }
     return this._name;
   }
