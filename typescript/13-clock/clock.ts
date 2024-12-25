@@ -4,9 +4,12 @@ export class Clock {
 
   constructor(hour: number, minute: number = 0) {
     const minInDay = 1440;
-    const totalMinutes = (((hour * 60 + minute) % minInDay) + minInDay) % minInDay;
-    this.hour = Math.floor(totalMinutes / 60);
-    this.minute = totalMinutes % 60;
+    const totalMinutes = (hour * 60 + minute) % minInDay;
+    const normalizedMinutes = totalMinutes < 0 ?
+      (totalMinutes + minInDay) % minInDay :
+      totalMinutes;
+    this.hour = Math.floor(normalizedMinutes / 60);
+    this.minute = normalizedMinutes % 60;
   }
 
   public toString(): string {
