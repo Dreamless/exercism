@@ -1,4 +1,4 @@
-import { beforeEach, afterEach, describe, it, expect, xit } from '@jest/globals'
+import { beforeEach, afterEach, describe, it, expect } from '@jest/globals'
 import { Robot } from './robot-name.ts'
 
 const areSequential = (name1: string, name2: string): boolean => {
@@ -139,5 +139,6 @@ describe('Robot', () => {
     }
 
     expect(usedNames.size).toEqual(TOTAL_NUMBER_OF_NAMES)
+
   })
 })

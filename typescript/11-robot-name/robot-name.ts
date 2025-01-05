@@ -1,10 +1,7 @@
 export class Robot {
+  private static allNames: string[] = Robot.generateAllNames();
+  private static nextNameIndex = 0;
   private _name: string | null = null;
-  private static allNames: string[];
-
-  constructor() {
-    Robot.allNames = Robot.generateAllNames();
-  }
 
   private static generateAllNames(): string[] {
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -18,48 +15,44 @@ export class Robot {
       }
     }
 
+    shuffle(allNames)
+
     return allNames;
   }
 
-  // private static generateUniqueName(): string {
-  //   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  //   const firstLetter = letters[Math.floor(this.serialNumber / letters.length)];
-  //   const secondLetter = letters[this.serialNumber % letters.length];
-  //   const generateSerialNumber = this.serialNumber.toString().padStart(3, '0');
-  //
-  //
-  //   let name = this.allNames;
-  //   // const generateRandomName = (qty: number): string => {
-  //   //   //const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  //   //   let str = "";
-  //   //   while (str.length < qty) {
-  //   //     str += letters[Math.floor(Math.random() * letters.length)];
-  //   //   }
-  //   //   return str;
-  //   // }
-  //   //
-  //   // do {
-  //   //   name = firstLetter + secondLetter + generateSerialNumber;
-  //   // } while (this.usedNames.has(name));
-  //
-  //   this.usedNames.add(name);
-  //   this.serialNumber++;
-  //   return name;
-  // }
-
   public get name(): string {
-    //const randomNameIndex = Math.floor(Math.random() * Robot.allNames.length);
     if (!this._name) {
-      this._name = Robot.allNames;
+      if (Robot.nextNameIndex >= Robot.allNames.length) {
+        throw new Error('Index out of bounds');
+      }
+
+      this._name = Robot.allNames[Robot.nextNameIndex];
+      Robot.nextNameIndex++;
     }
+
     return this._name;
   }
 
   public resetName(): void {
-    this._name = null;
+    if (this._name) {
+      this._name = null;
+    }
   }
 
   public static releaseNames(): void {
-    this.allNames = [];
+    Robot.nextNameIndex = 0;
   }
+}
+
+function shuffle<T>(arr: T[]): void {
+  for (let i = 0; i < arr.length; i++) {
+    const randomIndex = Math.floor(Math.random() * (arr.length - i)) + i;
+    swap(arr, i, randomIndex);
+  }
+}
+
+function swap<T>(arr: T[], i: number, j: number): void {
+  const temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
 }
