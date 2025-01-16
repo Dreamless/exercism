@@ -12,8 +12,9 @@ function translatedSymbols(text: string): string {
   let encodedText = "";
 
   for (let i = 0; i < normalizedText.length; i++) {
-    if (alphabet.includes(normalizedText[i])) {
-      const letterIndex = (alphabet.length - 1) - alphabet.indexOf(normalizedText[i]);
+    const letterIdx: number = alphabet.indexOf(normalizedText[i]);
+    if (letterIdx !== -1) {
+      const letterIndex = (alphabet.length - 1) - letterIdx;
       encodedText += alphabet[letterIndex];
     } else {
       encodedText += normalizedText[i];
