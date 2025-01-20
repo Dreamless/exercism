@@ -40,8 +40,8 @@ describe('Matrix', () => {
   })
 
   it('can extract column from non-square matrix 2', () => {
-    const expected = [4, 8, 12, 16]
-    expect(new Matrix('1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16').columns[3]).toEqual(
+    const expected = [10, 10, 10, 10, 10]
+    expect(new Matrix('1 10 3\n5 10 7\n9 10 11\n9 10 11\n9 10 11').columns[1]).toEqual(
       expected
     )
   })
