@@ -3,7 +3,7 @@ export function commands(number: number): string[] {
   const result: string[] = [];
 
   for (let i = 0; i < actions.length; i++) {
-    if (number % 2 === 1 && number > 0) {
+    if (number % 2 === 1) {
       result.push(actions[i])
     }
     number = Math.floor(number / 2);
