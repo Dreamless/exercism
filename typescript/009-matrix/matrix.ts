@@ -12,8 +12,17 @@ export class Matrix {
   }
 
   get columns(): number[][] {
-    return this.matrix.map((_, colIndex) => this.matrix.map(currentRow => {
-      return currentRow[colIndex];
-    }));
+    const rowLength = this.matrix.length;
+    const colLength = this.matrix[0].length;
+
+    const rotated: number[][] = Array.from({ length: colLength }, () => Array<number>(rowLength).fill(0));
+
+    for (let i = 0; i < rowLength; i++) {
+      for (let j = 0; j < colLength; j++) {
+        rotated[j][i] = this.matrix[i][j];
+      }
+    }
+
+    return rotated;
   }
 }

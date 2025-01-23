@@ -33,16 +33,14 @@ describe('Matrix', () => {
   })
 
   it('can extract column from non-square matrix', () => {
-    const expected = [3, 6, 9, 6]
-    expect(new Matrix('1 2 3\n4 5 6\n7 8 9\n8 7 6').columns[2]).toEqual(
+    const expected = [1, 4, 7, 8]
+    expect(new Matrix('1 2 3\n4 5 6\n7 8 9\n8 7 6').columns[0]).toEqual(
       expected
     )
-  })
 
-  it('can extract column from non-square matrix 2', () => {
-    const expected = [10, 10, 10, 10, 10]
-    expect(new Matrix('1 10 3\n5 10 7\n9 10 11\n9 10 11\n9 10 11').columns[1]).toEqual(
-      expected
+    const expected2 = [14, 14, 14, 14]
+    expect(new Matrix('1 10 3 4 14\n5 10 7 8 14\n9 10 11 13 14\n10 11 12 13 14').columns[4]).toEqual(
+      expected2
     )
   })
 
