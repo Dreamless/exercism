@@ -1,7 +1,12 @@
 export function multiplyMatrix(matrixA: number[][], matrixB: number[][]): number[][] {
   const rowsA = matrixA.length;
+  const rowsB = matrixB.length;
   const colsA = matrixA[0].length;
   const colsB = matrixB[0].length;
+
+  if (colsA !== rowsB) {
+    throw new Error('Incompatible matrix size');
+  }
 
 
   const result: number[][] = Array.from({ length: rowsA }, () => Array<number>(colsB).fill(0));
