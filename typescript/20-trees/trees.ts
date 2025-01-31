@@ -41,3 +41,16 @@ export function bfs(root: TreeNode): number[] {
 
   return result;
 }
+
+
+export function preorderDFS(node: TreeNode | null, result: number[] = []): number[] {
+  if (!node) return result;
+
+  result.push(node.value);
+
+  for (const child of node.children) {
+    preorderDFS(child, result);
+  }
+
+  return result;
+}
